@@ -1,0 +1,54 @@
+<!--
+MORROW / WEBFLOW CODE EMBED
+1. Deploy the Vite app to a static host (Netlify, Vercel, Cloudflare Pages, etc).
+2. Replace https://YOUR-MORROW-SITE.example with your real deployed site URL.
+3. Paste this whole block into Webflow > Add > Code Embed.
+4. Publish your Webflow site; verify on the published URL.
+No need to install Three.js or Motion on the Webflow site: both are bundled by Vite.
+-->
+<div id="morrow-3d-story" style="position:relative;height:365vh;min-height:1500px;background:#e9daca;">
+  <iframe id="morrow-3d-iframe"
+    title="Morrow interactive 3D coffee brewing story"
+    src="https://YOUR-MORROW-SITE.example/?webflow=1"
+    loading="lazy"
+    allow="autoplay"
+    style="position:sticky;top:0;display:block;width:100%;height:100vh;height:100svh;border:0;overflow:hidden;background:#ead7c2;"
+  ></iframe>
+</div>
+<script>
+(function () {
+  var root = document.getElementById('morrow-3d-story');
+  var frame = document.getElementById('morrow-3d-iframe');
+  if (!root || !frame) return;
+  var frameOrigin = new URL(frame.src).origin;
+  var rafPending = false;
+  function progress() {
+    var room = Math.max(1, root.offsetHeight - window.innerHeight);
+    return Math.max(0, Math.min(1, -root.getBoundingClientRect().top / room));
+  }
+  function update() {
+    rafPending = false;
+    if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'morrow:scroll', progress: progress() }, frameOrigin);
+  }
+  function queueUpdate() {
+    if (rafPending) return;
+    rafPending = true;
+    window.requestAnimationFrame(update);
+  }
+  function onMessage(event) {
+    if (event.source !== frame.contentWindow || event.origin !== frameOrigin) return;
+    if (event.data && event.data.type === 'morrow:ready') queueUpdate();
+    if (event.data && event.data.type === 'morrow:seek') {
+      var value = Number(event.data.progress);
+      if (!Number.isFinite(value)) return;
+      var room = Math.max(1, root.offsetHeight - window.innerHeight);
+      window.scrollTo({ top: window.scrollY + root.getBoundingClientRect().top + room * Math.max(0, Math.min(1, value)), behavior: 'smooth' });
+    }
+  }
+  window.addEventListener('scroll', queueUpdate, { passive: true });
+  window.addEventListener('resize', queueUpdate);
+  window.addEventListener('message', onMessage);
+  frame.addEventListener('load', queueUpdate);
+  queueUpdate();
+})();
+</script>
