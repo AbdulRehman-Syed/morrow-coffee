@@ -1,7 +1,27 @@
 {
   "rewrites": [
     {
-      "source": "/((?!assets/|images/|models/|adobe/|favicon.svg|robots.txt).*)",
+      "source": "/coffee",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/coffee/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/cafe",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/brew",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/origins",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/journal",
       "destination": "/index.html"
     }
   ]
