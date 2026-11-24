@@ -1,0 +1,3 @@
+# Morrow is a concept storefront; remove the indexing block after launch review.
+User-agent: *
+Disallow: /
