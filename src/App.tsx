@@ -139,7 +139,7 @@ function AppMain(){const [route,setRoute]=useState(()=>window.location.pathname.
   const navigate:Navigate=(path)=>{const [pathname,hash='']=path.split('#');if(pathname!==window.location.pathname){window.history.pushState({},'',path);setRoute(pathname);window.scrollTo({top:0,behavior:'instant'});}if(hash){window.setTimeout(()=>document.getElementById(hash)?.scrollIntoView({behavior:reduced?'auto':'smooth'}),50)}};
   useEffect(()=>{const onPop=()=>{setRoute(window.location.pathname.replace(/\/$/,'')||'/');window.scrollTo({top:0,behavior:'instant'})};window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop)},[]);
   useEffect(()=>updatePageMetadata(route),[route]);
-  useEffect(()=>{const frame=requestAnimationFrame(()=>{const heading=document.querySelector<HTMLElement>('#main h1');heading?.focus({preventScroll:true})});return()=>cancelAnimationFrame(frame)},[route]);
+  useEffect(()=>{const frame=requestAnimationFrame(()=>{document.querySelector<HTMLElement>('#main')?.focus({preventScroll:true})});return()=>cancelAnimationFrame(frame)},[route]);
   const add=(id:string,qty=1,size:BagSize='250g',grind:GrindType='Whole bean')=>{const coffee=origins.find(o=>o.id===id);if(!coffee)return;setItems(prev=>updateCart(prev,{id,size,grind,quantity:qty}));setToast(`${coffee.name} · ${size} · ${grind} added to bag`)};
   const count=items.reduce((sum,i)=>sum+i.quantity,0);
   let page:ReactNode;
