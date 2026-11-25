@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Coffee, Pause, Play, RotateCcw, Sparkles, ShoppingBag } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUpRight, Coffee, Pause, Play, RotateCcw, Sparkles, ShoppingBag } from 'lucide-react';
 import { origins } from '../data';
 
 type Navigate=(path:string)=>void;
@@ -95,7 +95,7 @@ export default function EditorialHome({navigate,add}:Props){
        <div className="m57-hero-copy">
          <span className="m57-kicker m57-light-kicker"><Sparkles size={15}/> MORROW COFFEE HOUSE</span>
          <AnimatePresence mode="wait" initial={false}><motion.div key={slide} data-hero-slide={slide} initial={{opacity:0,y:motionEnabled?15:0}} animate={{opacity:1,y:0}} exit={{opacity:0,y:motionEnabled?-12:0}} transition={{duration:motionEnabled?.42:0}}>
-           <h1>{active.heading.split(' ').slice(0,-1).join(' ')} <em>{active.heading.split(' ').at(-1)}</em></h1>
+           <h1>{active.heading.split(' ').slice(0,-1).join(' ')} <em>{active.heading.split(' ').slice(-1)[0]}</em></h1>
            <p>{active.description}</p>
          </motion.div></AnimatePresence>
          <div className="m57-hero-actions"><button className="m57-primary" onClick={()=>navigate(active.to)}>{active.button}<ArrowUpRight size={17}/></button><button className="m57-ghost" onClick={()=>navigate('/cafe')}>Explore the café <ArrowRight size={17}/></button></div>
