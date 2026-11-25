@@ -119,7 +119,7 @@ function AppMain(){const [route,setRoute]=useState(()=>window.location.pathname.
   useEffect(()=>{if(!toast)return;const timer=window.setTimeout(()=>setToast(null),3500);return()=>window.clearTimeout(timer)},[toast]);
   const navigate:Navigate=(path)=>{
     const [rawPath,hash='']=path.split('#');
-    const pathname=(rawPath||window.location.pathname).replace(/\\/$/,'')||'/';
+    const pathname=(rawPath||window.location.pathname).replace(/\/$/,'')||'/';
     const destination=pathname+(hash?'#'+hash:'');
     const routeChanged=pathname!==window.location.pathname;
     if(window.location.pathname+window.location.hash!==destination)window.history.pushState({},'',destination);
