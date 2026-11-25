@@ -6,7 +6,7 @@ import { origins, flavorAxes, type Origin } from './data';
 import { MorrowMark } from './components/Icons';
 import { useDialogFocus } from './hooks/useDialogFocus';
 import SignatureStrip from './components/SignatureStrip';
-import RoastHouseHome from './components/RoastHouseHome';
+import EditorialHome from './components/EditorialHome';
 import { AboutPage, ContactPage, FAQPage, InfoPage } from './components/ShowcasePages';
 import { CheckoutPage, DemoSuccess, type DemoReceipt } from './components/DemoCheckout';
 import { updatePageMetadata } from './seo';
@@ -67,7 +67,8 @@ function ProductDetails({id,navigate,add}:{id:string;navigate:Navigate;add:(id:s
  const galleryRef=useDialogFocus<HTMLDivElement>(lightbox,()=>setLightbox(false));
  useEffect(()=>{if(!lightbox)return;const key=(e:KeyboardEvent)=>{if(e.key==='ArrowRight')setImageIndex(i=>(i+1)%3);if(e.key==='ArrowLeft')setImageIndex(i=>(i+2)%3)};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[lightbox]);
  if(!origin)return <NotFound navigate={navigate}/>;
- const images=[{src:productPhotos[id],alt:`${origin.name} coffee packaging beside a prepared cup`},{src:'/images/collection.webp',alt:'A selection of coffee and brewing equipment'},{src:'/images/hero-ritual.webp',alt:'A slow pour-over coffee ritual'}];
+ const photoSlug=id==='ethiopia'?'daybreak':id==='colombia'?'golden-hour':'afterglow';
+  const images=[{src:productPhotos[id],alt:`${origin.name} coffee bag and cup — product concept photograph`},{src:`/images/${photoSlug}-beans.svg`,alt:`${origin.name} — illustrated roast and bean study`},{src:`/images/${photoSlug}-notes.svg`,alt:`${origin.name} — illustrated flavor notes and origin information`}];
  return <><div className="v5-shell v5-breadcrumb"><SiteLink to="/coffee" navigate={navigate}>The collection</SiteLink><span>/</span>{origin.name}</div>
  <section className="v5-shell v5-detail-grid"><div className="v51-product-gallery"><div className="v5-detail-image v52-photo-stage"><button type="button" className="v52-photo-zoom" aria-label={`Enlarge image ${imageIndex+1} of ${origin.name}`} onClick={()=>setLightbox(true)}><Photo src={images[imageIndex].src} alt={images[imageIndex].alt}/><span className="v52-zoom-prompt">View photo +</span></button><span>FROM {origin.country.toUpperCase()} WITH CHARACTER</span></div><div className="v51-gallery-thumbs" aria-label="Coffee photos">{images.map((photo,index)=><button key={photo.src} aria-pressed={imageIndex===index} className={index===imageIndex?'selected':''} aria-label={`Show photo ${index+1}: ${photo.alt}`} onClick={()=>setImageIndex(index)}><Photo src={photo.src} alt=""/></button>)}</div></div>
  <div className="v5-detail-copy"><Eyebrow>{origin.region.toUpperCase()} / SINGLE ORIGIN</Eyebrow><h1>{origin.name}<span>.</span></h1><p className="v5-detail-tagline">{origin.tagline}</p><div className="v5-detail-notes">{origin.notes.map(note=><span key={note}>{note}</span>)}</div><div className="v5-detail-meta"><div><span>ROAST</span><strong>{origin.roast}</strong></div><div><span>PROCESS</span><strong>{origin.process}</strong></div><div><span>GROWING ALTITUDE</span><strong>{origin.elevation}</strong></div></div>
@@ -143,7 +144,7 @@ function AppMain(){const [route,setRoute]=useState(()=>window.location.pathname.
   const add=(id:string,qty=1,size:BagSize='250g',grind:GrindType='Whole bean')=>{const coffee=origins.find(o=>o.id===id);if(!coffee)return;setItems(prev=>updateCart(prev,{id,size,grind,quantity:qty}));setToast(`${coffee.name} · ${size} · ${grind} added to bag`)};
   const count=items.reduce((sum,i)=>sum+i.quantity,0);
   let page:ReactNode;
-  if(route==='/')page=<RoastHouseHome navigate={navigate} add={add}/>;
+  if(route==='/')page=<EditorialHome navigate={navigate} add={add}/>;
   else if(route==='/coffee')page=<CoffeeShop navigate={navigate} add={add}/>;
   else if(route.startsWith('/coffee/'))page=<ProductDetails id={route.split('/')[2]} navigate={navigate} add={add}/>;
   else if(route==='/cafe')page=<Cafe navigate={navigate}/>;
