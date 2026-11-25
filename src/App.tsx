@@ -6,6 +6,7 @@ import { origins, flavorAxes, type Origin } from './data';
 import { MorrowMark } from './components/Icons';
 import { useDialogFocus } from './hooks/useDialogFocus';
 import SignatureStrip from './components/SignatureStrip';
+import RoastHouseHome from './components/RoastHouseHome';
 import HomeShowcase from './components/HomeShowcase';
 import { AboutPage, ContactPage, FAQPage, InfoPage } from './components/ShowcasePages';
 import { CheckoutPage, DemoSuccess, type DemoReceipt } from './components/DemoCheckout';
@@ -145,7 +146,7 @@ function AppMain(){const [route,setRoute]=useState(()=>window.location.pathname.
   const add=(id:string,qty=1,size:BagSize='250g',grind:GrindType='Whole bean')=>{const coffee=origins.find(o=>o.id===id);if(!coffee)return;setItems(prev=>updateCart(prev,{id,size,grind,quantity:qty}));setToast(`${coffee.name} · ${size} · ${grind} added to bag`)};
   const count=items.reduce((sum,i)=>sum+i.quantity,0);
   let page:ReactNode;
-  if(route==='/')page=<Home navigate={navigate} add={add}/>;
+  if(route==='/')page=<RoastHouseHome navigate={navigate} add={add}/>;
   else if(route==='/coffee')page=<CoffeeShop navigate={navigate} add={add}/>;
   else if(route.startsWith('/coffee/'))page=<ProductDetails id={route.split('/')[2]} navigate={navigate} add={add}/>;
   else if(route==='/cafe')page=<Cafe navigate={navigate}/>;
