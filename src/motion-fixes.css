@@ -1,0 +1,73 @@
+
+/* Morrow v5.6: visibly animated brewing and repaired interactive cues. */
+.m56-hero-ambience{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.m56-float-bean{position:absolute;font-size:clamp(24px,3vw,48px);color:#e7b98a;opacity:.63;filter:drop-shadow(0 0 18px #f1bc867d);animation:m56-float 5.4s ease-in-out infinite alternate}
+.m56-float-bean.b1{top:15%;right:17%;animation-duration:4s}
+.m56-float-bean.b2{top:58%;right:10%;font-size:32px;animation-delay:-1.7s}
+.m56-float-bean.b3{top:27%;right:33%;font-size:23px;animation-delay:-3.1s}
+@keyframes m56-float{0%{transform:translate3d(0,0,0) rotate(-15deg);opacity:.33}100%{transform:translate3d(-16px,-29px,0) rotate(32deg);opacity:.85}}
+.m55-hero-photo img{animation:m56-hero-pan 17s ease-in-out infinite alternate;transform-origin:55% 50%}
+@keyframes m56-hero-pan{0%{transform:scale(1.03) translateX(0)}100%{transform:scale(1.12) translateX(-1.5%)}}
+.m55-cup-choice.selected{box-shadow:0 16px 52px #71502b34;border-color:#b88662}
+.m55-cup-choice.selected .m55-cup-visual{animation:m56-cup-bob 2.7s ease-in-out infinite alternate}
+@keyframes m56-cup-bob{to{transform:translateY(-8px)}}
+.m56-brew-wrap{max-width:1060px;margin:35px auto 0}
+.m56-brew{background:#28201c;color:#f5e8d9;border:1px solid #b18368;box-shadow:0 23px 55px #3b241b2f;overflow:hidden}
+.m56-brew-top{padding:20px 25px;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid #bca08442}
+.m56-brew-top>span{display:flex;gap:10px;align-items:center;font-size:11px;font-weight:850;letter-spacing:.16em;color:#dcb084}
+.m56-brew-top>strong{font-size:13px;font-weight:600;color:#fff1e0}
+.m56-brew-stage{min-height:290px;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.9fr);gap:25px;align-items:center;background:radial-gradient(circle at 31% 75%,#4e3327,#28201c 62%);padding:18px 43px}
+.m56-illustration{position:relative;height:246px;width:min(100%,390px);margin:auto}
+.m56-illustration>div{position:absolute}
+.m56-kettle{width:129px;height:69px;border:4px solid #a6a29a;border-radius:55% 55% 48% 48%;top:24px;left:3%;background:linear-gradient(135deg,#c8c7bf,#67635d 65%,#36322f);transform-origin:100% 70%;transform:rotate(4deg);z-index:4}
+.m56-kettle:before{content:'';position:absolute;top:-14px;left:45%;width:37px;height:12px;background:#d9c09c;border-radius:12px}
+.m56-kettle-handle{position:absolute;width:60px;height:64px;left:-38px;top:-1px;border:11px solid #79746b;border-radius:50%;z-index:-1}
+.m56-kettle-spout{position:absolute;right:-34px;top:-4px;width:65px;height:12px;background:linear-gradient(#bdb9ac,#615d54);border-radius:15px;transform:rotate(32deg);transform-origin:left center}
+.m56-kettle-spout:after{content:'';position:absolute;right:-4px;bottom:-7px;width:14px;height:15px;background:#a5a095;border-radius:100% 10% 20% 20%}
+.m56-dripper{top:133px;left:45%;width:124px;height:64px;clip-path:polygon(0 0,100% 0,67% 100%,33% 100%);background:linear-gradient(120deg,#dfd5cb,#f6eee5 55%,#938c82);z-index:4;border-top:5px solid #eee9e4}
+.m56-grounds{position:absolute;top:2px;left:9%;width:82%;height:12px;background:radial-gradient(ellipse,#3c2519,#6d3c21);border-radius:50%}
+.m56-beaker{left:48%;top:181px;width:101px;height:62px;background:#eee2d522;border:3px solid #e5e4daaa;border-top:3px solid #dad6c8;border-radius:9px 9px 30px 30px;overflow:hidden;z-index:2}
+.m56-liquid{position:absolute;left:0;bottom:0;width:100%;height:8%;background:linear-gradient(0deg,#3e2116,#a56236);border-radius:45% 45% 0 0;transition:height .2s linear}
+.m56-brew.stage-3 .m56-liquid{height:74%}
+.m56-brew.stage-2.is-playing .m56-liquid{animation:m56-fill 4.4s linear forwards}
+@keyframes m56-fill{from{height:8%}to{height:74%}}
+.m56-stream{left:49%;top:78px;width:9px;height:95px;background:linear-gradient(90deg,#ffffff88,#c7dce9cc,#ffffff88);border-radius:40%;z-index:3;opacity:0;transform-origin:center top;filter:drop-shadow(0 0 6px #e8faff88)}
+.m56-brew.stage-2.is-playing .m56-stream{opacity:1;animation:m56-pour .7s ease-in-out infinite alternate}
+@keyframes m56-pour{0%{transform:scaleX(.7) rotate(-2deg)}100%{transform:scaleX(1.35) rotate(3deg)}}
+.m56-brew.stage-2.is-playing .m56-kettle{animation:m56-tilt 2.4s ease-in-out infinite alternate}
+@keyframes m56-tilt{0%{transform:rotate(8deg)}100%{transform:rotate(25deg)}}
+.m56-ripple{position:absolute;z-index:5;top:-1px;left:36%;width:34px;height:15px;border:2px solid #fff9ddb0;border-radius:50%;opacity:0}
+.m56-brew.stage-1.is-playing .m56-ripple,.m56-brew.stage-2.is-playing .m56-ripple{animation:m56-ripple 1.5s ease-out infinite}
+.m56-ripple.r2{animation-delay:.65s!important}
+@keyframes m56-ripple{0%{transform:scale(.35);opacity:.9}100%{transform:scale(2);opacity:0}}
+.m56-steam{width:5px;height:78px;bottom:51px;left:55%;border-radius:50%;filter:blur(3px);opacity:0;background:#d7bfb9}
+.m56-steam.s2{left:61%;height:85px}.m56-steam.s3{left:49%;height:62px}
+.m56-brew.stage-1.is-playing .m56-steam,.m56-brew.stage-2.is-playing .m56-steam,.m56-brew.stage-3 .m56-steam{animation:m56-steam 2.3s ease-out infinite}
+.m56-steam.s2{animation-delay:.45s!important}.m56-steam.s3{animation-delay:.92s!important}
+@keyframes m56-steam{0%{transform:translate(0,18px) scale(.5);opacity:0}35%{opacity:.58}100%{transform:translate(17px,-45px) scale(1.6);opacity:0}}
+.m56-drop{width:8px;height:11px;top:100px;left:51%;background:#d6e5ee;border-radius:50% 50% 55% 10%;opacity:0;transform:rotate(-28deg)}
+.m56-brew.stage-2.is-playing .m56-drop{animation:m56-drip .9s ease-in infinite}
+.m56-drop.d2{left:54%;animation-delay:.38s!important}
+@keyframes m56-drip{0%{opacity:0;transform:translateY(0) scale(.6)}30%{opacity:.9}100%{opacity:0;transform:translateY(80px) scale(1)}}
+.m56-brew-copy>span{font-size:10px;letter-spacing:.16em;color:#e0ad85}
+.m56-brew-copy h3{font-family:'Oswald','Arial Narrow',sans-serif!important;font-size:clamp(32px,4vw,51px);line-height:1.2;margin:7px 0;color:#fff3e6!important}
+.m56-brew-copy p{font-size:13px;color:#d1c0b2;line-height:1.65;max-width:270px}
+.m56-brew-bottom{padding:17px 25px 22px}
+.m56-brew-progress{height:6px;background:#675246;overflow:hidden;border-radius:5px}
+.m56-brew-progress>div{height:100%;background:linear-gradient(90deg,#e2a97e,#ffdfab);transition:width .08s linear}
+.m56-brew-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:17px}
+.m56-brew-actions button{min-height:42px;display:inline-flex;align-items:center;gap:9px;border:1px solid #cfaa89;padding:10px 14px;color:#ffead7;font-size:12px;font-weight:750;transition:background .2s}
+.m56-brew-actions button:hover{background:#73513f}
+.m56-brew-actions button:first-child{background:#dda77e;color:#261910}
+.m56-brew-actions button:first-child:hover{background:#f1c39c}
+.m56-brew-actions>span{margin-left:auto;font-size:11px;color:#d7bda8}
+@media(max-width:700px){.m56-brew-stage{grid-template-columns:1fr;padding:10px 20px 24px;gap:9px}.m56-brew-copy{text-align:center}.m56-brew-copy p{margin:auto}.m56-illustration{height:241px}.m56-brew-top{padding:17px}.m56-brew-bottom{padding:16px}.m56-float-bean.b3{display:none}}
+@media(prefers-reduced-motion:reduce){.m56-float-bean,.m55-hero-photo img,.m55-cup-choice.selected .m55-cup-visual,.m56-kettle,.m56-steam,.m56-ripple,.m56-drop,.m56-stream,.m56-liquid{animation:none!important}.m56-brew-stage.stage-3 .m56-liquid{height:74%}}
+
+/* Mobile dialog must render ABOVE the sticky header. The old menu was visible
+   but its links sat underneath the header's pointer hit area. */
+@media(max-width:850px){
+  .v5-mobile-nav{z-index:95;isolation:isolate}
+  .v51-mobile-scrim{z-index:85}
+  .v5-mobile-nav nav a{position:relative;z-index:2}
+}

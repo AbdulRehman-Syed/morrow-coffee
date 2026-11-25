@@ -117,7 +117,26 @@ function AppMain(){const [route,setRoute]=useState(()=>window.location.pathname.
   const reduced=Boolean(useReducedMotion());
   useEffect(()=>saveCart(items),[items]);
   useEffect(()=>{if(!toast)return;const timer=window.setTimeout(()=>setToast(null),3500);return()=>window.clearTimeout(timer)},[toast]);
-  const navigate:Navigate=(path)=>{const [pathname,hash='']=path.split('#');if(pathname!==window.location.pathname){window.history.pushState({},'',path);setRoute(pathname);window.scrollTo({top:0,behavior:'instant'});}if(hash){window.setTimeout(()=>document.getElementById(hash)?.scrollIntoView({behavior:reduced?'auto':'smooth'}),50)}};
+  const navigate:Navigate=(path)=>{
+    const [rawPath,hash='']=path.split('#');
+    const pathname=(rawPath||window.location.pathname).replace(/\/$/,'')||'/';
+    const destination=pathname+(hash?'#'+hash:'');
+    const routeChanged=pathname!==window.location.pathname;
+    if(window.location.pathname+window.location.hash!==destination)window.history.pushState({},'',destination);
+    if(routeChanged){setRoute(pathname);window.scrollTo({top:0,behavior:'instant'});}
+    if(hash){
+      // AnimatePresence waits for the outgoing page to unmount before mounting the
+      // incoming page. A 50ms timeout scrolled too early and made Menu appear broken.
+      let retries=0;
+      const scrollToAnchor=()=>{
+        const element=document.getElementById(hash);
+        if(element&&(!routeChanged||document.querySelector('#main')?.contains(element))){
+          element.scrollIntoView({block:'start',behavior:reduced?'auto':'smooth'});
+        }else if(retries++<20){window.setTimeout(scrollToAnchor,40);}
+      };
+      window.setTimeout(scrollToAnchor,routeChanged?230:0);
+    }
+  };
   useEffect(()=>{const onPop=()=>{setRoute(window.location.pathname.replace(/\/$/,'')||'/');window.scrollTo({top:0,behavior:'instant'})};window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop)},[]);
   useEffect(()=>updatePageMetadata(route),[route]);
   useEffect(()=>{const frame=requestAnimationFrame(()=>{document.querySelector<HTMLElement>('#main')?.focus({preventScroll:true})});return()=>cancelAnimationFrame(frame)},[route]);
