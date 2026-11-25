@@ -1,12 +1,12 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Coffee, Heart, Leaf, Menu, Minus, Plus, Search, ShoppingBag, SlidersHorizontal, Sparkles, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Coffee, Menu, Minus, Plus, Search, ShoppingBag, SlidersHorizontal, X } from 'lucide-react';
 import { origins, flavorAxes, type Origin } from './data';
 import { MorrowMark } from './components/Icons';
 import { useDialogFocus } from './hooks/useDialogFocus';
 import SignatureStrip from './components/SignatureStrip';
-import HomeShowcase from './components/HomeShowcase';
+import RoastHouseHome from './components/RoastHouseHome';
 import { AboutPage, ContactPage, FAQPage, InfoPage } from './components/ShowcasePages';
 import { CheckoutPage, DemoSuccess, type DemoReceipt } from './components/DemoCheckout';
 import { updatePageMetadata } from './seo';
@@ -51,30 +51,9 @@ function ArrowCta({to,navigate,children,light=false}:{to:string;navigate:Navigat
 function Eyebrow({children,light=false}:{children:ReactNode;light?:boolean}) {return <div className={`v5-eyebrow ${light?'v5-eyebrow-light':''}`}><span className="v5-eyebrow-dot"/>{children}</div>}
 function SectionTitle({eyebrow,children,aside}:{eyebrow:string;children:ReactNode;aside?:ReactNode}) {return <div className="v5-section-heading"><div><Eyebrow>{eyebrow}</Eyebrow><h2 className="v5-heading">{children}</h2></div>{aside&&<div className="v5-heading-aside">{aside}</div>}</div>}
 function Photo({src,alt,className='',priority=false}:{src:string;alt:string;className?:string;priority?:boolean}){return <img src={src} alt={alt} loading={priority?'eager':'lazy'} decoding="async" className={className}/>}
-const slides=[
-  {src:'/images/hero.webp',label:'THE DAILY RITUAL',lead:'A little slower.',accent:'A lot better.',sub:'Thoughtful coffees for the moments worth staying in.',detail:'01 / THE FIRST SIP'},
-  {src:'/images/cafe.webp',label:'WELCOME TO MORROW',lead:'Find your',accent:'favorite corner.',sub:'The warmth of a coffee bar, wherever the day takes you.',detail:'02 / THE COFFEE BAR'},
-  {src:'/images/hero-ritual.webp',label:'MADE TO SAVOR',lead:'Every pour.',accent:'Every pause.',sub:'Small-batch coffee, beautifully unhurried.',detail:'03 / THE POUR'}
-];
-function Hero({navigate}:{navigate:Navigate}) {
-  const [index,setIndex]=useState(0), reduced=Boolean(useReducedMotion());
-  const slide=slides[index];
-  return <section className="v5-hero" aria-label="Welcome to Morrow Coffee">
-    <div className="v5-hero-images"><AnimatePresence initial={false}>{<motion.div key={index} className="v5-hero-photo" initial={reduced?false:{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:reduced?0:.62,ease:'easeInOut'}}><Photo src={slide.src} alt={index===0?'Warm specialty coffee, ceramic mug and freshly roasted beans on a dark green counter':index===1?'Cozy coffee bar with copper details, greenery and a barista preparing pour-over': 'Freshly brewed coffee in a glass carafe with a kettle and cup'} priority={index===0}/></motion.div>}</AnimatePresence></div>
-    <div className="v5-hero-shade"/><div className="v54-hero-sticker" aria-hidden="true"><span>✷ THE GOOD STUFF</span><strong>BREW<br/>SOMETHING<br/>BEAUTIFUL!</strong><span className="v54-sticker-sun">☀</span></div>
-    <div className="v5-shell v5-hero-content"><motion.div key={index} initial={reduced?false:{opacity:0,y:13}} animate={{opacity:1,y:0}} transition={{duration:reduced?0:.5,ease}} className="v5-hero-copy"><Eyebrow light>{slide.label}</Eyebrow><h1>{slide.lead}<br/><em>{slide.accent}</em></h1><p>{slide.sub}</p><div className="v5-hero-ctas"><ArrowCta to="/coffee" navigate={navigate}>Explore our coffee</ArrowCta><SiteLink to="/cafe" navigate={navigate} className="v5-text-link v5-text-link-light">Inside our café <ArrowRight size={17}/></SiteLink></div></motion.div></div>
-    <div className="v5-shell v5-hero-footer"><div className="v5-hero-kicker"><span className="v5-pulse"/> MADE FOR BETTER MORNINGS</div><div className="v5-hero-slide-controls"><span>{slide.detail}</span><div className="v5-hero-pips">{slides.map((s,i)=><button key={s.detail} className={i===index?'active':''} onClick={()=>setIndex(i)} aria-label={`View slide ${i+1}: ${s.label}`} aria-current={index===i?'true':undefined}/>)}</div><button className="v5-hero-arrow" onClick={()=>setIndex(i=>(i+slides.length-1)%slides.length)} aria-label="Previous hero slide"><ChevronLeft size={19}/></button><button className="v5-hero-arrow" onClick={()=>setIndex(i=>(i+1)%slides.length)} aria-label="Next hero slide"><ChevronRight size={19}/></button></div></div>
-  </section>;
-}
-function PerkStrip() {return <div className="v5-perks"><div className="v5-shell v5-perks-inner"><span><Coffee size={19}/> Single origin, thoughtfully selected</span><span><Leaf size={18}/> Crafted for your daily ritual</span><span><Sparkles size={18}/> Made to explore, not rush</span><span><Heart size={18}/> Coffee with character</span></div></div>}
 function ProductCard({origin,navigate,add,index=0}:{origin:Origin;navigate:Navigate;add:(id:string,qty?:number)=>void;index?:number}) {
   return <article className="v5-product-card"><SiteLink to={`/coffee/${origin.id}`} navigate={navigate} className="v5-product-photo"><Photo src={productPhotos[origin.id]} alt={`Concept coffee packaging for ${withItem(origin)}, with a ceramic coffee cup`}/><span className="v5-product-badge">0{index+1} / 03</span><span className="v5-product-view">Discover coffee <ArrowUpRight size={15}/></span></SiteLink><div className="v5-product-info"><div><span className="v5-product-overline">{origin.country.toUpperCase()} · {origin.roast.toUpperCase()}</span><SiteLink to={`/coffee/${origin.id}`} navigate={navigate} className="v5-product-name">{origin.name}</SiteLink><p>{origin.notes.join(' · ')}</p></div><button className="v5-product-add" aria-label={`Add ${origin.name} to bag`} onClick={()=>add(origin.id)}><Plus size={20}/></button></div><div className="v5-product-price">250G WHOLE BEAN <span>${origin.price}.00</span></div></article>
 }
-function FeaturedProducts({navigate,add}:{navigate:Navigate;add:(id:string,qty?:number)=>void}) {return <section className="v5-section v5-featured"><div className="v5-shell"><SectionTitle eyebrow="FRESH FROM THE ROASTERY" aside={<SiteLink to="/coffee" navigate={navigate} className="v5-text-link">Shop all coffees <ArrowUpRight size={18}/></SiteLink>}>Meet the <em>good stuff.</em></SectionTitle><div className="v5-product-grid">{origins.map((o,i)=><ProductCard key={o.id} origin={o} index={i} navigate={navigate} add={add}/>)}</div></div></section>}
-function CafeTeaser({navigate}:{navigate:Navigate}){return <section className="v5-cafe-teaser"><div className="v5-cafe-teaser-img"><Photo src="/images/cafe-bar.webp" alt="Warm, plant-filled specialty coffee counter with copper roasting equipment"/></div><div className="v5-cafe-teaser-panel"><Eyebrow light>MORE THAN A GOOD CUP</Eyebrow><h2>Come for the coffee.<br/><em>Stay for the feeling.</em></h2><p>Warm light. Something freshly brewed. A little room to linger.</p><ArrowCta to="/cafe" navigate={navigate} light>Step inside</ArrowCta></div></section>}
-function LabTeaser({navigate}:{navigate:Navigate}) {return <section className="v5-section v5-lab-teaser"><div className="v5-shell v5-lab-teaser-grid"><div className="v5-lab-teaser-photo"><Photo src="/images/hero-ritual.webp" alt="Pour-over brewing with a gooseneck kettle and ceramic dripper"/><span>THE ART OF A SLOW POUR</span></div><div className="v5-lab-teaser-copy"><Eyebrow>THE BREW LAB</Eyebrow><h2 className="v5-heading">Make every cup<br/><em>your own.</em></h2><p>Adjust your grind, time your bloom and find your perfect pour in our interactive brewing studio.</p><ArrowCta to="/brew" navigate={navigate}>Explore the brew lab</ArrowCta></div></div></section>}
-function ClosingBanner({navigate}:{navigate:Navigate}){return <section className="v5-closing" style={{backgroundImage:'linear-gradient(90deg,rgba(20,30,24,.89) 0%,rgba(20,30,24,.35) 100%),url(/images/feature.webp)'}}><div className="v5-shell"><Eyebrow light>FROM EVERYWHERE, WITH CHARACTER</Eyebrow><h2>Good coffee<br/><em>has a story.</em></h2><ArrowCta to="/origins" navigate={navigate} light>Discover our origins</ArrowCta></div></section>}
-function Home({navigate,add}:{navigate:Navigate;add:(id:string,qty?:number)=>void}){return <><Hero navigate={navigate}/><PerkStrip/><FeaturedProducts navigate={navigate} add={add}/><HomeShowcase navigate={navigate}/><CafeTeaser navigate={navigate}/><LabTeaser navigate={navigate}/><ClosingBanner navigate={navigate}/></>}
 function PageIntro({tag,title,subtitle,src,className=''}:{tag:string;title:ReactNode;subtitle:string;src?:string;className?:string}) {return <section className={`v5-page-intro ${src?'v5-page-intro-photo':''} ${className}`} style={src?{backgroundImage:`linear-gradient(90deg,rgba(23,32,27,.78),rgba(23,32,27,.26)),url(${src})`}:undefined}><div className="v5-shell"><Eyebrow light={Boolean(src)}>{tag}</Eyebrow><h1>{title}</h1><p>{subtitle}</p></div></section>}
 function CoffeeShop({navigate,add}:{navigate:Navigate;add:(id:string,qty?:number)=>void}) {
   const [filter,setFilter]=useState('all'), [search,setSearch]=useState(''),[sort,setSort]=useState('featured');
@@ -145,7 +124,7 @@ function AppMain(){const [route,setRoute]=useState(()=>window.location.pathname.
   const add=(id:string,qty=1,size:BagSize='250g',grind:GrindType='Whole bean')=>{const coffee=origins.find(o=>o.id===id);if(!coffee)return;setItems(prev=>updateCart(prev,{id,size,grind,quantity:qty}));setToast(`${coffee.name} · ${size} · ${grind} added to bag`)};
   const count=items.reduce((sum,i)=>sum+i.quantity,0);
   let page:ReactNode;
-  if(route==='/')page=<Home navigate={navigate} add={add}/>;
+  if(route==='/')page=<RoastHouseHome navigate={navigate} add={add}/>;
   else if(route==='/coffee')page=<CoffeeShop navigate={navigate} add={add}/>;
   else if(route.startsWith('/coffee/'))page=<ProductDetails id={route.split('/')[2]} navigate={navigate} add={add}/>;
   else if(route==='/cafe')page=<Cafe navigate={navigate}/>;
