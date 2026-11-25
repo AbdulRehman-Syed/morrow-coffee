@@ -6,6 +6,7 @@ import './styles.css';
 import './v5.css';
 import './v54.css';
 import './midnight.css';
+import './motion-fixes.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
