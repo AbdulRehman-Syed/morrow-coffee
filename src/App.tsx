@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Coffee, Heart, Leaf, Menu, Minus, Plus, Search, ShoppingBag, SlidersHorizontal, Sparkles, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Coffee, Menu, Minus, Plus, Search, ShoppingBag, SlidersHorizontal, X } from 'lucide-react';
 import { origins, flavorAxes, type Origin } from './data';
 import { MorrowMark } from './components/Icons';
 import { useDialogFocus } from './hooks/useDialogFocus';
