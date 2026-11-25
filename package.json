@@ -1,14 +1,15 @@
 {
   "name": "morrow-coffee-story",
   "private": true,
-  "version": "5.5.0",
+  "version": "5.7.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc --noEmit",
-    "doctor": "node scripts/doctor.mjs"
+    "doctor": "node scripts/doctor.mjs",
+    "test:browser": "node scripts/browser-smoke.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
