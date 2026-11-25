@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, ArrowUpRight, CheckCircle2, Coffee, Heart, Leaf, Mail, MapPin, Search, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, CheckCircle2, Coffee, Heart, Leaf, Mail, MapPin, Search } from 'lucide-react';
 import Reveal from './Reveal';
 
 type Navigate = (path:string)=>void;
