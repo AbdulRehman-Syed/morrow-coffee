@@ -63,3 +63,11 @@
 .m56-brew-actions>span{margin-left:auto;font-size:11px;color:#d7bda8}
 @media(max-width:700px){.m56-brew-stage{grid-template-columns:1fr;padding:10px 20px 24px;gap:9px}.m56-brew-copy{text-align:center}.m56-brew-copy p{margin:auto}.m56-illustration{height:241px}.m56-brew-top{padding:17px}.m56-brew-bottom{padding:16px}.m56-float-bean.b3{display:none}}
 @media(prefers-reduced-motion:reduce){.m56-float-bean,.m55-hero-photo img,.m55-cup-choice.selected .m55-cup-visual,.m56-kettle,.m56-steam,.m56-ripple,.m56-drop,.m56-stream,.m56-liquid{animation:none!important}.m56-brew-stage.stage-3 .m56-liquid{height:74%}}
+
+/* Mobile dialog must render ABOVE the sticky header. The old menu was visible
+   but its links sat underneath the header's pointer hit area. */
+@media(max-width:850px){
+  .v5-mobile-nav{z-index:95;isolation:isolate}
+  .v51-mobile-scrim{z-index:85}
+  .v5-mobile-nav nav a{position:relative;z-index:2}
+}
