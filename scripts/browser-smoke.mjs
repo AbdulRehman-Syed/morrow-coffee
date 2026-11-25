@@ -17,7 +17,7 @@ try{
   await page.getByRole('button',{name:'Pause hero slideshow'}).click();
   await page.getByRole('button',{name:'Turn off animations'}).click();
   await page.getByRole('button',{name:'Enable animations'}).click();
-  await page.getByRole('button',{name:'Play hero slideshow'}).waitFor();
+  await page.getByRole('button',{name:'Pause hero slideshow'}).waitFor();
  });
  await check('Brewing sequence animates and has working pause/replay controls',async()=>{
   await page.locator('#m57-brew').scrollIntoViewIfNeeded();
@@ -78,5 +78,15 @@ try{
   await page.getByText(/Can I place and pay for a real order?/).waitFor();
  });
  if(pageErrors.length)throw Error('Unhandled page errors: '+pageErrors.join('; '));
+ await page.setViewportSize({width:1440,height:900});
+ await page.goto(base+'/',{waitUntil:'domcontentloaded'});
+ await page.locator('.m57-hero').waitFor();
+ await page.waitForTimeout(850);
+ await (await import('node:fs/promises')).mkdir('test-results',{recursive:true});
+ await page.screenshot({path:'test-results/morrow-desktop.png',fullPage:true,animations:'disabled'});
+ await page.setViewportSize({width:390,height:844});
+ await page.goto(base+'/',{waitUntil:'domcontentloaded'});
+ await page.locator('.m57-hero').waitFor();
+ await page.screenshot({path:'test-results/morrow-mobile.png',fullPage:true,animations:'disabled'});
  console.log('ALL '+passed+' EDITORIAL FRONTEND BROWSER CHECKS PASSED');
 }finally{await browser.close();}
