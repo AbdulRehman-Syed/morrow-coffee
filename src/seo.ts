@@ -13,7 +13,15 @@ const staticPages: Record<string, Omit<PageMetadata, 'indexable'>> = {
   '/cafe': { title: 'The Café Concept', description: 'Explore the Morrow Coffee House concept, its photographic café story and sample espresso, filter and pastry menu.', image: '/images/cafe.webp' },
   '/brew': { title: 'Interactive Pour-over Brew Lab', description: 'Explore a pour-over brewing guide with a visual studio, grind adjustments, bloom timer and recipe ideas.', image: '/images/hero-ritual.webp' },
   '/origins': { title: 'Coffee Origins & Flavor Profiles', description: 'Explore coffee-growing regions and compare illustrative tasting profiles from Ethiopia, Colombia and Guatemala.', image: '/images/feature.webp' },
-  '/journal': { title: 'The Coffee Journal', description: 'Explore brewing stories, coffee rituals and illustrated guides from the Morrow concept journal.', image: '/images/hero-ritual.webp' }
+  '/journal': { title: 'The Coffee Journal', description: 'Explore brewing stories, coffee rituals and illustrated guides from the Morrow concept journal.', image: '/images/hero-ritual.webp' },
+  '/about': { title: 'Our Story — Made by Abdul Rehman', description: 'Meet the spirit of Morrow, a warm specialty coffee frontend showcase designed and created by Abdul Rehman.', image: '/images/cafe.webp' },
+  '/contact': { title: 'Contact — Demo Form', description: 'Explore Morrow’s concept contact experience. Form submissions are simulated locally and are not sent.', image: '/images/hero.webp' },
+  '/faq': { title: 'Frequently Asked Questions', description: 'Get answers about Morrow’s coffee, demo ordering, café concept and interactive frontend experience.', image: '/images/hero-ritual.webp' },
+  '/shipping': { title: 'Shipping & Returns — Demo', description: 'Read how the Morrow coffee showcase simulates shipping and returns without real orders.', image: '/images/collection.webp' },
+  '/privacy': { title: 'Privacy — Frontend Concept', description: 'How the Morrow concept site treats local cart storage, and why checkout and contact forms do not send data.', image: '/images/hero.webp' },
+  '/terms': { title: 'Demo Website Terms', description: 'Read the terms of the Morrow Coffee concept storefront and simulated checkout.', image: '/images/cafe.webp' },
+  '/checkout': { title: 'Demo Checkout', description: 'Explore a fictional coffee shopping checkout with no actual payments or orders.', image: '/images/collection.webp' },
+  '/order-success': { title: 'Demo Complete', description: 'A sample order confirmation screen for the Morrow Coffee frontend showcase.', image: '/images/hero.webp' }
 };
 export function getPageMetadata(path: string): PageMetadata {
   const normalized = path.replace(/\/$/, '') || '/';
